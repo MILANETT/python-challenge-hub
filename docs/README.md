@@ -1,33 +1,39 @@
 # 📚 Project Documentation
 
-Welcome to the documentation directory of the Python Challenge Hub.
+Welcome to the documentation directory of the **Python Challenge Hub**.
 
-This directory contains the guidelines and reference documents that explain how the challenge program operates.
+This directory contains the guidelines and policies that explain how the challenge program operates, how members are expected to participate, and how we maintain a productive learning environment.
 
-## 📌 Purpose
+## 📖 Documentation Index
 
-The documentation helps members understand the project's rules, expectations, and learning process as the challenge series grows.
+| Document | Purpose |
+|---|---|
+| [Challenge Guidelines](CHALLENGE_GUIDELINES.md) | Rules for attempting, completing, discussing, and reviewing challenges |
+| [AI Usage Policy](AI_USAGE_POLICY.md) | Responsible AI use, disclosure, and independent understanding |
 
-## 📂 Planned Documentation
+## 🧭 Other Repository Guidelines
 
-Documents may be added here as the project develops, including:
+Additional project guidance is maintained in the repository root:
 
-- **Challenge Guidelines** — Rules and expectations for attempting challenges.
-- **Submission Guidelines** — How members confirm completion and submit their work.
-- **AI Usage Policy** — Responsible use of AI tools during learning.
-- **Contribution Guidelines** — How members can contribute to the repository.
-- **Challenge Roadmap** — The progression of topics and difficulty levels.
+- [Contributing Guidelines](../CONTRIBUTING.md) — How to suggest improvements and contribute to the project.
+- [Challenge Index](../challenges/README.md) — Access the available challenges and their starter files.
+- [Reference Solutions](../solutions/README.md) — Understand how reviewed reference solutions are organized and published.
 
 ## 🤝 Community Principles
 
 Every member is encouraged to:
 
-- Attempt problems independently before seeking outside help.
+- Attempt problems independently before seeking outside assistance.
 - Focus on understanding the logic, not merely obtaining a working answer.
 - Explain their reasoning and learn from mistakes.
 - Respect other members and their learning journeys.
 - Be honest about the use of AI and other external resources.
+- Build on previously learned concepts rather than rushing through the roadmap.
 
 ## 🔄 Continuous Improvement
 
-This documentation will evolve as the Python Challenge Hub grows. Guidelines should remain clear, practical, and aligned with the project's learning objectives.
+The documentation will evolve as the Python Challenge Hub grows.
+
+Changes should keep the rules clear, practical, consistent, and aligned with the project's learning objectives. New documents should be added to this index when they are created.
+
+**Clear rules. Organized resources. Better learning.**
