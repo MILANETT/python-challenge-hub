@@ -9,16 +9,14 @@ This directory contains the official problem statements and starter files for ou
 The table below lists the challenges currently included in this repository.
 
 <!-- CHALLENGE_INDEX_START -->
-
-| Challenge | Topic | Instructions | Starter File |
-|---|---|---|---|
-| PY001 | Variables and Lists | [Read challenge](PY001/README.md) | [Open starter.py](PY001/starter.py) |
-| PY002 | Data Types, Type Conversion, and Operators | [Read challenge](PY002/README.md) | [Open starter.py](PY002/starter.py) |
-| PY003 | Input, Output, and String Basics | [Read challenge](PY003/README.md) | [Open starter.py](PY003/starter.py) |
-| PY004 | Control Flow | [Read challenge](PY004/README.md) | [Open starter.py](PY004/starter.py) |
-| PY005 | Data Structures — Student Records Manager | [Read challenge](PY005/README.md) | [Open starter.py](PY005/starter.py) |
-| PY006 | Functions — Reusable Functions: From Instructions to Results | [Read challenge](PY006/README.md) | [Open starter.py](PY006/starter.py) |
-
+| Challenge | Title | Difficulty |
+|---|---|---|
+| [PY001](PY001/) | PY001 — Variables + Lists |  Beginner |
+| [PY002](PY002/) | PY002 — Student Performance Checker |  Beginner → Intermediate |
+| [PY003](PY003/) | PY003 — Student Introduction Generator |  Beginner → Intermediate |
+| [PY004](PY004/) | PY004 — Student Performance Analyzer |  Beginner → Intermediate |
+| [PY005](PY005/) | PY005 — Student Records Manager |  Intermediate |
+| [PY006](PY006/) | 🐍 PY006 — Reusable Functions: From Instructions to Results |  🟢 Beginner |
 <!-- CHALLENGE_INDEX_END -->
 
 *The challenge index will be maintained automatically as the repository's challenge collection grows. Only challenges with the expected files should appear in the generated index.*
