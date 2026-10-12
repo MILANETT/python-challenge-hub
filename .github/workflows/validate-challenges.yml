@@ -1,0 +1,75 @@
+
+name: Validate Challenges
+
+on:
+  push:
+    paths:
+      - "challenges/**"
+      - ".github/workflows/validate-challenges.yml"
+  pull_request:
+    paths:
+      - "challenges/**"
+      - ".github/workflows/validate-challenges.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    name: Check Challenge Structure
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Get repository files
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.x"
+
+      - name: Validate challenge folders
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import re
+          import sys
+
+          challenges_dir = Path("challenges")
+          errors = []
+
+          if not challenges_dir.is_dir():
+              print("ERROR: The challenges/ directory is missing.")
+              sys.exit(1)
+
+          challenge_dirs = sorted(
+              path for path in challenges_dir.iterdir()
+              if path.is_dir() and re.fullmatch(r"PY\d{3}", path.name)
+          )
+
+          if not challenge_dirs:
+              errors.append("No challenge folders such as PY001 were found.")
+
+          for folder in challenge_dirs:
+              print(f"Checking {folder.name}...")
+
+              for required_file in ("README.md", "starter.py"):
+                  file_path = folder / required_file
+
+                  if not file_path.is_file():
+                      errors.append(
+                          f"{folder.name} is missing {required_file}"
+                      )
+
+          if errors:
+              print("\nVALIDATION FAILED:")
+              for error in errors:
+                  print(f"- {error}")
+              sys.exit(1)
+
+          print(
+              f"\nSUCCESS: All {len(challenge_dirs)} challenge folders "
+              "contain README.md and starter.py."
+          )
+          PY
