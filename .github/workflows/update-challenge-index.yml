@@ -1,0 +1,126 @@
+
+name: Update Challenge Index
+
+on:
+  push:
+    paths:
+      - "challenges/**"
+      - ".github/workflows/update-challenge-index.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  update-index:
+    name: Generate Challenge Index
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Get repository files
+        uses: actions/checkout@v7
+
+      - name: Set up Python
+        uses: actions/setup-python@v7
+        with:
+          python-version: "3.x"
+
+      - name: Update challenge index
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import re
+          import sys
+
+          index_file = Path("challenges/README.md")
+          start_marker = "<!-- CHALLENGE_INDEX_START -->"
+          end_marker = "<!-- CHALLENGE_INDEX_END -->"
+
+          if not index_file.is_file():
+              print("ERROR: challenges/README.md was not found.")
+              sys.exit(1)
+
+          content = index_file.read_text(encoding="utf-8")
+
+          if content.count(start_marker) != 1 or content.count(end_marker) != 1:
+              print("ERROR: Expected exactly one start marker and one end marker.")
+              sys.exit(1)
+
+          start = content.index(start_marker)
+          end = content.index(end_marker)
+
+          if end < start:
+              print("ERROR: The index markers are in the wrong order.")
+              sys.exit(1)
+
+          challenges_dir = Path("challenges")
+          challenge_dirs = sorted(
+              path for path in challenges_dir.iterdir()
+              if path.is_dir() and re.fullmatch(r"PY\d{3}", path.name)
+          )
+
+          rows = [
+              "| Challenge | Title | Difficulty |",
+              "|---|---|---|",
+          ]
+
+          for folder in challenge_dirs:
+              readme = folder / "README.md"
+              starter = folder / "starter.py"
+
+              if not readme.is_file() or not starter.is_file():
+                  print(f"Skipping incomplete challenge: {folder.name}")
+                  continue
+
+              text = readme.read_text(encoding="utf-8")
+              title_match = re.search(
+                  r"(?m)^#\s+(.+?)\s*$", text
+              )
+              difficulty_match = re.search(
+                  r"(?im)^\s*(?:\*\*)?Difficulty(?:\*\*)?\s*:\s*(.+?)\s*$",
+                  text,
+              )
+
+              title = title_match.group(1).strip() if title_match else folder.name
+              difficulty = (
+                  difficulty_match.group(1).strip().strip("*")
+                  if difficulty_match else "Not specified"
+              )
+
+              title = title.replace("|", "\\|")
+              difficulty = difficulty.replace("|", "\\|")
+
+              rows.append(
+                  f"| [{folder.name}]({folder.name}/) | {title} | {difficulty} |"
+              )
+
+          table = "\n" + "\n".join(rows) + "\n"
+          replacement = start_marker + table + end_marker
+
+          updated = (
+              content[:start]
+              + replacement
+              + content[end + len(end_marker):]
+          )
+
+          if updated != content:
+              index_file.write_text(updated, encoding="utf-8")
+              print("Challenge index updated.")
+          else:
+              print("Challenge index is already up to date.")
+
+          print(f"Challenges listed: {len(rows) - 2}")
+          PY
+
+      - name: Commit updated index
+        run: |
+          if git diff --quiet -- challenges/README.md; then
+            echo "No index changes to commit."
+            exit 0
+          fi
+
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add challenges/README.md
+          git commit -m "docs: automatically update challenge index"
+          git push
