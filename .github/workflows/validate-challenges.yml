@@ -29,6 +29,7 @@ jobs:
         with:
           python-version: "3.x"
 
+      
       - name: Validate challenge folders
         run: |
           python - <<'PY'
@@ -37,39 +38,106 @@ jobs:
           import sys
 
           challenges_dir = Path("challenges")
+          index_file = challenges_dir / "README.md"
           errors = []
 
+          # Check the main challenges directory.
           if not challenges_dir.is_dir():
               print("ERROR: The challenges/ directory is missing.")
               sys.exit(1)
 
-          challenge_dirs = sorted(
-              path for path in challenges_dir.iterdir()
-              if path.is_dir() and re.fullmatch(r"PY\d{3}", path.name)
-          )
+          # Check the challenge index and its markers.
+          if not index_file.is_file():
+              errors.append("challenges/README.md is missing.")
+          else:
+              content = index_file.read_text(encoding="utf-8")
+              start_marker = "<!-- CHALLENGE_INDEX_START -->"
+              end_marker = "<!-- CHALLENGE_INDEX_END -->"
+
+              if content.count(start_marker) != 1:
+                  errors.append(
+                      "The index start marker must appear exactly once."
+                  )
+
+              if content.count(end_marker) != 1:
+                  errors.append(
+                      "The index end marker must appear exactly once."
+                  )
+
+              if (
+                  content.count(start_marker) == 1
+                  and content.count(end_marker) == 1
+                  and content.index(start_marker)
+                  >= content.index(end_marker)
+              ):
+                  errors.append(
+                      "The index markers are in the wrong order."
+                  )
+
+          # Discover challenge folders and flag incorrectly named folders.
+          challenge_dirs = []
+
+          for folder in sorted(challenges_dir.iterdir()):
+              if not folder.is_dir() or folder.name == "README.md":
+                  continue
+
+              if folder.name.startswith("PY"):
+                  if not re.fullmatch(r"PY\d{3}", folder.name):
+                      errors.append(
+                          f"Invalid challenge folder name: {folder.name}. "
+                          "Expected a name such as PY007."
+                      )
+                  else:
+                      challenge_dirs.append(folder)
 
           if not challenge_dirs:
-              errors.append("No challenge folders such as PY001 were found.")
+              errors.append("No valid challenge folders were found.")
 
+          # Validate each challenge's required files and documentation.
           for folder in challenge_dirs:
               print(f"Checking {folder.name}...")
 
-              for required_file in ("README.md", "starter.py"):
-                  file_path = folder / required_file
+              readme = folder / "README.md"
+              starter = folder / "starter.py"
 
-                  if not file_path.is_file():
-                      errors.append(
-                          f"{folder.name} is missing {required_file}"
-                      )
+              if not readme.is_file():
+                  errors.append(
+                      f"{folder.name}: missing README.md."
+                  )
+                  continue
 
+              if not starter.is_file():
+                  errors.append(
+                      f"{folder.name}: missing starter.py."
+                  )
+
+              readme_content = readme.read_text(encoding="utf-8")
+
+              if not re.search(r"(?m)^#\s+\S", readme_content):
+                  errors.append(
+                      f"{folder.name}: README.md needs a title "
+                      "starting with '# '."
+                  )
+
+              if not re.search(
+                  r"(?im)^\s*(?:\*\*)?Difficulty(?:\*\*)?\s*:",
+                  readme_content,
+              ):
+                  errors.append(
+                      f"{folder.name}: README.md needs a Difficulty field."
+                  )
+
+          # Report all problems together.
           if errors:
-              print("\nVALIDATION FAILED:")
+              print("\nQUALITY CHECK FAILED:")
               for error in errors:
                   print(f"- {error}")
               sys.exit(1)
 
           print(
-              f"\nSUCCESS: All {len(challenge_dirs)} challenge folders "
-              "contain README.md and starter.py."
+              f"\nQUALITY CHECK PASSED: "
+              f"{len(challenge_dirs)} challenge folders checked."
           )
+          print("Required files, titles, difficulty fields, "
+                "and index markers are valid.")
           PY
