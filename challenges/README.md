@@ -56,4 +56,3 @@ These challenges are designed to develop more than the ability to write code tha
 The goal is to build problem-solving skills, understand why solutions work, practise debugging, and learn to explain programming decisions independently.
 
 **Learn the concept. Attempt the problem. Explain your reasoning. Improve through discussion.**
-<!-- Temporary pull-request workflow test -->
