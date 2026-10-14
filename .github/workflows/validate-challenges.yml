@@ -5,6 +5,7 @@ on:
   push:
     paths:
       - "challenges/**"
+      - "submissions/**"
       - ".github/workflows/validate-challenges.yml"
   pull_request:
     paths:
