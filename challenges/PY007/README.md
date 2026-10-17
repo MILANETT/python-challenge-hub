@@ -3,6 +3,7 @@
 **Phase:** Phase 4 — Functions  
 **Difficulty:** Beginner  
 **Estimated time:** 45–60 minutes
+**Deadline:** Monday, 19 October 2026, 8:00PM EAT
 
 ## 🎯 Objective
 
