@@ -6,12 +6,11 @@ on:
     paths:
       - "challenges/**"
       - "submissions/**"
+      - "solutions/**"
       - ".github/workflows/validate-challenges.yml"
+  # Always run on pull requests. If a required check is skipped by path
+  # filters, GitHub can leave it pending and block merging unrelated changes.
   pull_request:
-    paths:
-      - "challenges/**"
-      - "submissions/**"
-      - ".github/workflows/validate-challenges.yml"
   workflow_dispatch:
 
 permissions:
