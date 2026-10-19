@@ -1,0 +1,18 @@
+name = input("what is your name?").title().strip()
+course = input("What course do you take?").title()
+university = input("which university are you in?").upper()
+p_lang = input("What is your favourite programming language?").title()
+
+print("=========================================")
+print("            STUDENT PROFILE              ")
+print("=========================================\n")
+
+print(f"Name:{name}")
+print(f"Course:{course}")
+print("University:", university)
+print(f"Favourite Language:{p_lang}\n")
+print("Name length:", len(name))
+print("First character of name:", name[0])
+print("Last character of name:", name[-1:], end="\n\n")
+print(f"Thank you,{name}!")
+print("=========================================")
