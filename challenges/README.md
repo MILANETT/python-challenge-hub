@@ -18,6 +18,7 @@ The table below lists the challenges currently included in this repository.
 | [PY005](PY005/) | PY005 — Student Records Manager |  Intermediate |
 | [PY006](PY006/) | 🐍 PY006 — Reusable Functions: From Instructions to Results |  🟢 Beginner |
 | [PY007](PY007/) | 🐍 PY007 — Inside and Outside: Understanding Scope |  Beginner |
+| [PY008](PY008/) | 🐍 PY008 — The Function Toolkit: Flexible, Composable, and Clever |  Intermediate beginner |
 <!-- CHALLENGE_INDEX_END -->
 
 *The challenge index will be maintained automatically as the repository's challenge collection grows. Only challenges with the expected files should appear in the generated index.*
