@@ -41,8 +41,6 @@ def updated_count(count, amount):
 
 def main():
     """Run the scope experiments in a clear, repeatable order."""
-    global study_goal
-
     print("1. Read a global variable")
     show_completed_sessions()
 
