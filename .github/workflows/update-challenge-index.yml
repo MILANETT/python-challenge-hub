@@ -1,8 +1,9 @@
-
 name: Update Challenge Index
 
 on:
   push:
+    branches:
+      - main
     paths:
       - "challenges/**"
       - ".github/workflows/update-challenge-index.yml"
@@ -10,10 +11,14 @@ on:
 
 permissions:
   contents: write
+  pull-requests: write
 
 jobs:
   update-index:
     name: Generate Challenge Index
+    # Only generate from main. The resulting change is proposed as a PR,
+    # never pushed directly to the protected main branch.
+    if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
 
     steps:
@@ -56,7 +61,7 @@ jobs:
           challenges_dir = Path("challenges")
           challenge_dirs = sorted(
               path for path in challenges_dir.iterdir()
-              if path.is_dir() and re.fullmatch(r"PY\d{3}", path.name)
+              if path.is_dir() and re.fullmatch(r"PY\\d{3}", path.name)
           )
 
           rows = [
@@ -73,11 +78,9 @@ jobs:
                   continue
 
               text = readme.read_text(encoding="utf-8")
-              title_match = re.search(
-                  r"(?m)^#\s+(.+?)\s*$", text
-              )
+              title_match = re.search(r"(?m)^#\\s+(.+?)\\s*$", text)
               difficulty_match = re.search(
-                  r"(?im)^\s*(?:\*\*)?Difficulty(?:\*\*)?\s*:\s*(.+?)\s*$",
+                  r"(?im)^\\s*(?:\\*\\*)?Difficulty(?:\\*\\*)?\\s*:\\s*(.+?)\\s*$",
                   text,
               )
 
@@ -94,7 +97,7 @@ jobs:
                   f"| [{folder.name}]({folder.name}/) | {title} | {difficulty} |"
               )
 
-          table = "\n" + "\n".join(rows) + "\n"
+          table = "\\n" + "\\n".join(rows) + "\\n"
           replacement = start_marker + table + end_marker
 
           updated = (
@@ -112,15 +115,17 @@ jobs:
           print(f"Challenges listed: {len(rows) - 2}")
           PY
 
-      - name: Commit updated index
-        run: |
-          if git diff --quiet -- challenges/README.md; then
-            echo "No index changes to commit."
-            exit 0
-          fi
+      - name: Create pull request for updated index
+        uses: peter-evans/create-pull-request@v7
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          branch: automation/update-challenge-index
+          delete-branch: true
+          commit-message: "docs: automatically update challenge index"
+          title: "docs: update challenge index"
+          body: |
+            This pull request was opened automatically because challenge files changed.
 
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add challenges/README.md
-          git commit -m "docs: automatically update challenge index"
-          git push
+            It updates `challenges/README.md` to match challenge folders that contain both `README.md` and `starter.py`.
+
+            Please review the generated index and merge this pull request after the required checks pass.
