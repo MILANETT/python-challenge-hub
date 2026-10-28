@@ -163,7 +163,7 @@ def display_report(equipment, desk):  # Function to display the whole report
     for r_id, details in desk.items():
         if details["Status"] in ["Requested", "Issued"]:
             print(
-                f"ID: {r_id} | Requester: {details['Requester']} | Item: {details['Equipment']} | Qty: {details['Quantity']} | Status: {details['Status']}")
+                f"ID: {r_id}  Requester: {details['Requester']}  Item: {details['Equipment']}  Qty: {details['Quantity']}  Status: {details['Status']}")
 
 
 while True:  # Match case Menu for the program
