@@ -4,7 +4,7 @@
 **Phase:** Phase 4 — Functions, Control Flow & Problem-Solving Refinement  
 **Difficulty:** Targeted Refinement  
 **Estimated Time:** 90–120 minutes  
-**Deadline:** Thursday, 29 October 2026, at 8:00 PM EAT
+**Deadline:** Friday, 30 October 2026, at 4:00 PM EAT
 
 ## 🎯 The Purpose
 
