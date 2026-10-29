@@ -2,6 +2,7 @@
 
 **Challenge ID:** PY010  
 **Phase:** Phase 4 — Functions, Control Flow & Problem-Solving Refinement  
+**Difficulty:** Targeted Refinement  
 **Level:** Targeted Refinement  
 **Estimated Time:** 90–120 minutes  
 **Deadline:** Thursday, 29 October 2026, at 8:00 PM EAT
