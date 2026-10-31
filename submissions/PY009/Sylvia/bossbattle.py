@@ -236,8 +236,10 @@ def inventoryMenu():
         elif choice == "4":
             inventoryReport()
         elif choice == "5":
-            print("Goodbye.")
+            find_request(requestID)
             break
+        elif choice == "6":
+            print("Goodbye")
         else:
             print("Please choose an option from 1 to 5.")
 
