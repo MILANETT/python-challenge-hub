@@ -2,6 +2,8 @@
 
 This folder contains the reference implementation in [`solution.py`](solution.py). It demonstrates the required concepts in one runnable Personal Study Toolkit while keeping each function focused.
 
+**Scope rule:** this solution deliberately avoids `try`, `except`, and `raise`, because exception handling has not yet been taught in the group's PY001–PY008 progression. User input is checked with conditions and string methods before it is converted.
+
 ## Run it
 
 From the repository root, use Python 3.10 or newer:
@@ -18,6 +20,7 @@ Choose a menu option and follow the prompts. Choose `0` to exit.
 
 - `summarize_scores(*scores)` accepts any number of positional scores, counts them, and calculates the average with a loop rather than the built-in `sum()`.
 - With no scores, it returns a count of `0` and an average of `None`. This avoids division by zero and does not pretend that an empty collection has an average.
+- The menu accepts non-negative whole-number scores and checks each input string before converting it to an integer.
 - `build_student_report(**details)` accepts a flexible set of named details and returns a formatted string. It does not assume every caller will supply the same fixed keys.
 
 Examples to try in a Python shell:
@@ -61,11 +64,11 @@ The invalid calls remain comments so the reference script can run normally.
 
 ### 4. Docstrings and explanatory comments
 
-Every function has a docstring describing its purpose. Comments explain non-obvious design choices, such as why the empty-score average is `None`, why the factorial needs a base case, and why a function parameter makes `apply_operation()` a higher-order function.
+Every function has a docstring describing its purpose. Comments explain non-obvious design choices, such as why the empty-score average is `None`, why recursion needs a base case, and why a function parameter makes `apply_operation()` a higher-order function.
 
 ### 5. Function composition and higher-order functions
 
-`make_greeting()` calls `clean_name()` and uses its returned value to build the greeting. This is composition: one function's result is used by another operation.
+`make_greeting()` calls `clean_name()` and uses its returned value to build the greeting. This combines smaller operations into a larger one.
 
 `apply_operation(value, operation)` accepts a function object and calls it. Try both:
 
@@ -88,7 +91,7 @@ The lambda is a short, one-use key function. A named function would also work, b
 
 ### 7. Recursion
 
-`factorial()` returns `1` at the base case `number == 0`. Otherwise, it returns `number * factorial(number - 1)`, moving towards the base case. It rejects negative values rather than recursing indefinitely.
+`factorial()` returns `1` at the base case `number == 0`. Otherwise, it returns `number * factorial(number - 1)`, moving towards the base case. The function returns `None` for a negative number, and the menu only calls it after checking that the user's input is a non-negative whole number.
 
 Try `factorial(0)`, `factorial(1)`, and `factorial(5)`; expected results are `1`, `1`, and `120`.
 
@@ -100,6 +103,7 @@ The menu has more than four options, routes each choice to a function, repeats u
 
 - [ ] Multiple scores produce the expected count and average.
 - [ ] No scores return count `0` and average `None`.
+- [ ] Non-numeric score input is rejected before conversion.
 - [ ] Student reports accept different keyword details.
 - [ ] Default values are used and can be overridden.
 - [ ] The positional-only and keyword-only rules are understood.
@@ -107,6 +111,7 @@ The menu has more than four options, routes each choice to a function, repeats u
 - [ ] The higher-order function is tested with both `square` and `cube`.
 - [ ] Lambda sorting orders sessions by duration.
 - [ ] Factorial tests include `0` and an ordinary positive input.
+- [ ] Invalid duration and number input are rejected without exception handling.
 - [ ] A valid menu choice and an invalid choice are tried.
 
 **Learning note:** This is one valid reference implementation, not the only correct solution. Choose techniques because they make the program clearer and more reliable, not merely to demonstrate every concept.
