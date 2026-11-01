@@ -1,15 +1,12 @@
 """PY008 — The Function Toolkit: reference implementation.
 
 Run this file with Python 3.10 or newer.
+This solution uses only concepts covered in the group's PY001–PY008 progression.
 """
 
 
 def summarize_scores(*scores):
-    """Return the count and average for zero or more scores.
-
-    The average is None when no scores are supplied because an empty
-    collection has no meaningful average.
-    """
+    """Return the count and average for zero or more whole-number scores."""
     count = len(scores)
 
     if count == 0:
@@ -29,7 +26,7 @@ def build_student_report(**details):
 
     lines = ["Student Report"]
     for key, value in details.items():
-        # Keep this function flexible: the caller chooses which fields exist.
+        # The caller chooses which fields exist, so the report stays flexible.
         readable_key = key.replace("_", " ").title()
         lines.append(f"{readable_key}: {value}")
 
@@ -52,7 +49,7 @@ def clean_name(name):
 
 
 def make_greeting(name):
-    """Return a greeting, composing clean_name() with the greeting format."""
+    """Return a greeting using the cleaned name."""
     return f"Hello, {clean_name(name)}!"
 
 
@@ -68,14 +65,18 @@ def cube(number):
 
 def apply_operation(value, operation):
     """Apply the supplied function to value and return its result."""
-    # Accepting a function object makes this a higher-order function.
+    # Passing a function object makes this a higher-order function.
     return operation(value)
 
 
 def factorial(number):
-    """Return the factorial of a non-negative integer using recursion."""
+    """Return a non-negative integer's factorial using recursion.
+
+    Return None for a negative input. The menu also validates the input before
+    calling this function, so a negative number never starts recursive calls.
+    """
     if number < 0:
-        raise ValueError("Factorial is defined here only for non-negative integers.")
+        return None
 
     if number == 0:
         # The base case stops recursion; 0! is 1.
@@ -86,17 +87,24 @@ def factorial(number):
 
 
 def show_score_summary():
-    """Collect scores and display their count and average."""
-    raw_scores = input("Enter scores separated by spaces (or press Enter for none): ").split()
+    """Collect whole-number scores and display their count and average."""
+    raw_scores = input(
+        "Enter whole-number scores separated by spaces (or press Enter for none): "
+    ).split()
 
-    try:
-        scores = [float(raw_score) for raw_score in raw_scores]
-    except ValueError:
-        print("Please enter numbers separated by spaces.")
-        return
+    # Check every piece of text before converting any of it to an integer.
+    for raw_score in raw_scores:
+        if not raw_score.isdigit():
+            print("Please enter non-negative whole-number scores separated by spaces.")
+            return
+
+    scores = []
+    for raw_score in raw_scores:
+        scores.append(int(raw_score))
 
     summary = summarize_scores(*scores)
     print(f"Count: {summary['count']}")
+
     if summary["average"] is None:
         print("Average: not available (no scores supplied)")
     else:
@@ -132,14 +140,13 @@ def main():
             case "3":
                 student = input("Student name: ").strip()
                 subject = input("Subject [Python]: ").strip() or "Python"
-                raw_duration = input("Duration in minutes [30]: ").strip()
+                raw_duration = input("Duration in whole minutes [30]: ").strip()
 
                 if raw_duration:
-                    try:
-                        duration = int(raw_duration)
-                    except ValueError:
-                        print("Duration must be a whole number.")
+                    if not raw_duration.isdigit():
+                        print("Duration must be a non-negative whole number.")
                         continue
+                    duration = int(raw_duration)
                 else:
                     duration = 30
 
@@ -148,14 +155,13 @@ def main():
             case "4":
                 student = input("Student name: ").strip()
                 subject = input("Subject: ").strip()
-                raw_duration = input("Duration in minutes: ").strip()
+                raw_duration = input("Duration in whole minutes: ").strip()
 
-                try:
-                    duration = int(raw_duration)
-                except ValueError:
-                    print("Duration must be a whole number.")
+                if not raw_duration.isdigit():
+                    print("Duration must be a non-negative whole number.")
                     continue
 
+                duration = int(raw_duration)
                 print(describe_session(student, subject, duration=duration))
 
             case "5":
@@ -163,14 +169,15 @@ def main():
                 print(make_greeting(name))
 
             case "6":
-                raw_number = input("Enter a number: ").strip()
-                try:
-                    number = float(raw_number)
-                except ValueError:
-                    print("Please enter a number.")
+                raw_number = input("Enter a non-negative whole number: ").strip()
+
+                if not raw_number.isdigit():
+                    print("Please enter a non-negative whole number.")
                     continue
 
+                number = int(raw_number)
                 operation_choice = input("Choose square or cube: ").strip().lower()
+
                 match operation_choice:
                     case "square":
                         operation = square
@@ -189,7 +196,7 @@ def main():
                     ("Statistics", 60),
                     ("Geography", 25),
                 ]
-                # The lambda is short and useful as a one-off sorting key.
+                # The lambda is a short, one-use sorting key.
                 sorted_sessions = sorted(sessions, key=lambda session: session[1])
                 print("Sessions from shortest to longest:")
                 for subject, duration in sorted_sessions:
@@ -197,11 +204,13 @@ def main():
 
             case "8":
                 raw_number = input("Enter a non-negative whole number: ").strip()
+
                 if not raw_number.isdigit():
                     print("Please enter a non-negative whole number.")
                     continue
 
-                print(f"{raw_number}! = {factorial(int(raw_number))}")
+                number = int(raw_number)
+                print(f"{number}! = {factorial(number)}")
 
             case "0":
                 print("Goodbye!")
