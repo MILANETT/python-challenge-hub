@@ -19,7 +19,9 @@ The table below lists the challenges currently included in this repository.
 | [PY006](PY006/) | 🐍 PY006 — Reusable Functions: From Instructions to Results |  🟢 Beginner |
 | [PY007](PY007/) | 🐍 PY007 — Inside and Outside: Understanding Scope |  Beginner |
 | [PY008](PY008/) | 🐍 PY008 — The Function Toolkit: Flexible, Composable, and Clever |  Intermediate beginner |
-| [PY009](PY009/) | 🐍 PY009 — The Equipment Desk |  Boss Battle |\n| [PY010](PY010/) | 🐍 PY010 — Refinement Challenge: From Almost Working to Reliable Python |  Targeted Refinement |
+| [PY009](PY009/) | 🐍 PY009 — The Equipment Desk |  Cumulative |
+| [PY010](PY010/) | 🐍 PY010 — Refinement Challenge: From Almost Working to Reliable Python |  Targeted Refinement |
+| [PY011](PY011/) | PYTHON CHALLENGE #011 |  Intermediate |
 <!-- CHALLENGE_INDEX_END -->
 
 *The challenge index will be maintained automatically as the repository's challenge collection grows. Only challenges with the expected files should appear in the generated index.*
