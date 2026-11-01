@@ -3,7 +3,6 @@
 **Challenge ID:** PY011  
 **Phase 5:** Pythonic Data Processing  
 **Difficulty:** Intermediate  
-**Level:** Intermediate  
 **Deadline:** Sunday, 8 November 2026, at 8:00 PM EAT
 
 **Topics Covered:**
